@@ -1,0 +1,43 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.3.50'
+}
+
+group 'pl.stepwise'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'pl.stepwise.loader.DataLoaderKt'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+dependencies {
+
+    // https://mvnrepository.com/artifact/org.apache.beam/beam-sdks-java-core
+    compile group: 'org.apache.beam', name: 'beam-sdks-java-core', version: '2.16.0'
+    // https://mvnrepository.com/artifact/org.apache.beam/beam-runners-google-cloud-dataflow-java
+    compile group: 'org.apache.beam', name: 'beam-runners-google-cloud-dataflow-java', version: '2.16.0'
+    // https://mvnrepository.com/artifact/org.apache.beam/beam-sdks-java-io-google-cloud-platform
+    compile group: 'org.apache.beam', name: 'beam-sdks-java-io-google-cloud-platform', version: '2.16.0'
+    // https://mvnrepository.com/artifact/commons-cli/commons-cli
+    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+}
